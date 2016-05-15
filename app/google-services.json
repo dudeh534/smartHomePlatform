@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "101811107297",
+    "project_id": "mygatt-2bc5e"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101811107297:android:9e5de0d71bc7f596",
+        "android_client_info": {
+          "package_name": "com.ourincheon.mygatt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa3Z6Xo8UJxwVitf-ldg6hs5HlV48QT0o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
