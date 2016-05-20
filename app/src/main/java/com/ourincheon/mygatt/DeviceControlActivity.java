@@ -54,6 +54,8 @@ public class DeviceControlActivity extends Activity {
     private final String LIST_UUID = "UUID";
     String uuid;
     BluetoothGattCharacteristic characteristic;
+    byte[] arrayBULB;
+    byte[] arrayPOWER;
     private TextView mConnectionState;
     private TextView mDataField;
     private Button on, off;
@@ -61,7 +63,6 @@ public class DeviceControlActivity extends Activity {
     private String mDeviceAddress;
     private ExpandableListView mGattServicesList;
     private BluetoothLeService mBluetoothLeService;
-    byte[] arrayBULB;
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -138,8 +139,7 @@ public class DeviceControlActivity extends Activity {
                     if (mBluetoothLeService.writeCharacteristic(characteristic, paramString)) {
                         finish();
                     }
-                }
-                if (dataClass.getmFlag().equals("PLAYBULB CANDLE")) {
+                } else if (dataClass.getmFlag().equals("PLAYBULB CANDLE")) {
                     if (dataClass.getmValue().equals("0")) {
                         arrayBULB = new byte[]{0, 0, 0, 0, 5, 0, 1, 0};
                     } else {
@@ -150,6 +150,17 @@ public class DeviceControlActivity extends Activity {
                     characteristic = mGattCharacteristics.get(2).get(4);
 
                     if (mBluetoothLeService.writeCharacteristic(characteristic, arrayBULB)) {
+                        finish();
+                    }
+                } else if (dataClass.getmFlag().equals("Bluno")) {
+                    if (dataClass.getmValue().equals("0")) {
+                        arrayPOWER = new byte[]{0};
+                    } else {
+                        arrayPOWER = new byte[]{1};
+                    }
+                    characteristic = mGattCharacteristics.get(3).get(0);
+
+                    if (mBluetoothLeService.writeCharacteristic(characteristic, arrayPOWER)) {
                         finish();
                     }
                 }

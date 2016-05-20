@@ -50,6 +50,10 @@ public class GCMMessageListenerService extends GcmListenerService {
             sendNotification(data.getString("MIPOW"));
             EventBus.getDefault().post(deviceScanActivity);
 
+        } else if (data.containsKey("POWER")){
+            dataClass.setmFlag("Bluno");
+            sendNotification(data.getString("POWER"));
+            EventBus.getDefault().post(deviceScanActivity);
         }
     }
 
