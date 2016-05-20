@@ -56,7 +56,8 @@ import de.greenrobot.event.EventBus;
  * AIzaSyBrYuVp-Pd6TVBS47MXgDIWazLW1HOnG7g
  * Sender ID help
  * 101811107297
- * fNYJrZRTnAE:APA91bE3lkl-U0lBv5NebtXDm4Bu3-_moQXXWYOi7Q59MW7CdLwkgd14iZRBBXn3fHwGzdcjZwXD3ONVyNSEmfbKQrlWOwp_U8wlkS5mw63r-q12pgkUyQhfMdnUVs_6e_5JXnP7g6Hw
+ * fNYJrZRTnAE:APA91bE3lkl-U0lBv5NebtXDm4Bu3-_moQXXWYOi7Q59MW7CdLwkgd14iZRBBXn3fHwGzdcjZwXD3ONVyNSEmfbKQrlWOwp_U8wlkS5mw63r-q12pgkUyQhfMdnUVs_6e_5JXnP7g6Hw - 갤5
+ * ckm1WOfzkrE:APA91bHXM2uEYGVMftMYrSymc7p6Ul_NLoF-C6C_pWYP_8rzBLryDU7NWaVMUQjNgqxu7aivSW7kGHIfkMJmkLX1LfYmHMTIjAwcj_UVo8hktL-lXkbz9dLjo8ZD77ECbWpfpHAEMOzb - 넥플
  */
 public class DeviceScanActivity extends ListActivity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -92,7 +93,9 @@ public class DeviceScanActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setTitle(R.string.title_devices);
+        Intent intent1 = new Intent(this, ViewActivity.class);
+        startActivity(intent1);
+        //getActionBar().setTitle(R.string.title_devices);
         mHandler = new Handler();
         if (checkPlayServices()) {
             startService(new Intent(this, RegistrationIntentService.class));
@@ -252,8 +255,13 @@ public class DeviceScanActivity extends ListActivity {
 
         //final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
         final Intent intent = new Intent(this, DeviceControlActivity.class);
-        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, "iWATT.   7F053E9636");
-        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, "00:1A:C0:7F:05:3E");
+        if (dataClass.getmFlag().equals("iWATT.   7F053E9636")) {
+            intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, "iWATT.   7F053E9636");
+            intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, "00:1A:C0:7F:05:3E");//와트드림
+        } else if (dataClass.getmFlag().equals("PLAYBULB CANDLE")) {
+            intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, "PLAYBULB CANDLE");
+            intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, "A5:DA:4B:0B:AC:E6");
+        }
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;

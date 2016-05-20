@@ -20,6 +20,8 @@ import de.greenrobot.event.EventBus;
 public class GCMMessageListenerService extends GcmListenerService {
     private static final int NOTIFICATION_ID = 91732846;
     DeviceScanActivity deviceScanActivity = new DeviceScanActivity();
+    String valueButton = null;
+
     //387897575771
     @Override
     public void onMessageReceived(String from, Bundle data) {
@@ -29,10 +31,23 @@ public class GCMMessageListenerService extends GcmListenerService {
         for (String key : data.keySet()) {
             Object value = data.get(key);
             Log.e(" onMessageReceived2", String.format("%s : %s (%s)", key, value.toString(), value.getClass().getName()));
+            if(value.toString().equals("0")){
+                dataClass.setmValue("0");
+            }else if (value.toString().equals("1")){
+                dataClass.setmValue("1");
+            }
+
+
         }
 
-        if (data.containsKey("message")) {
-            sendNotification(data.getString("message"));
+        if (data.containsKey("WATT_DREAM")) {
+            dataClass.setmFlag("iWATT.   7F053E9636");
+            sendNotification(data.getString("WATT_DREAM"));
+            EventBus.getDefault().post(deviceScanActivity);
+
+        } else if (data.containsKey("MIPOW")) {
+            dataClass.setmFlag("PLAYBULB CANDLE");
+            sendNotification(data.getString("MIPOW"));
             EventBus.getDefault().post(deviceScanActivity);
 
         }

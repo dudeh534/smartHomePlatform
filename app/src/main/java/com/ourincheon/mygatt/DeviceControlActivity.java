@@ -61,9 +61,7 @@ public class DeviceControlActivity extends Activity {
     private String mDeviceAddress;
     private ExpandableListView mGattServicesList;
     private BluetoothLeService mBluetoothLeService;
-    // Code to manage Service lifecycle.
-    private boolean mflag = true;
-    private String st;
+    byte[] arrayBULB;
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -82,6 +80,9 @@ public class DeviceControlActivity extends Activity {
             mBluetoothLeService = null;
         }
     };
+    // Code to manage Service lifecycle.
+    private boolean mflag = true;
+    private String st;
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
     private boolean mConnected = false;
@@ -104,43 +105,61 @@ public class DeviceControlActivity extends Activity {
                 updateConnectionState(R.string.disconnected);
                 invalidateOptionsMenu();
                 clearUI();
-                if(!mBluetoothLeService.connect(mDeviceAddress)) {
-                    finish();
+
+                if (!mBluetoothLeService.connect(mDeviceAddress)) {
+                    //finish();
                 }
+
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // Show all the supported services and characteristics on the user interface.
                 displayGattServices(mBluetoothLeService.getSupportedGattServices());
-                Log.e("mflag", String.valueOf(dataClass.ismFlag()));
-                if(dataClass.ismFlag()) {
-                    st = "set pwm=01,FF";
-                    dataClass.setmFlag(false);
-                }else{
-                    st = "set pwm=01,00";
-                    dataClass.setmFlag(true);
+                if (dataClass.getmFlag().equals("iWATT.   7F053E9636")) {
+
+                    if (dataClass.getmValue().equals("1")) {
+                        st = "set pwm=01,FF";
+                    } else {
+                        st = "set pwm=01,00";
+                    }
+
+                    byte[] arrayOfByte = st.getBytes();
+                    byte[] paramString = new byte[arrayOfByte.length];
+                    int k = arrayOfByte.length;
+                    int j = 0;
+                    int i = 0;
+                    while (j < k) {
+                        paramString[i] = ((byte) (arrayOfByte[j] ^ 0x4A));
+                        j += 1;
+                        i += 1;
+                    }
+                    if (mGattCharacteristics != null) {
+                        characteristic = mGattCharacteristics.get(3).get(4);
+                    }
+
+                    if (mBluetoothLeService.writeCharacteristic(characteristic, paramString)) {
+                        finish();
+                    }
+                }
+                if (dataClass.getmFlag().equals("PLAYBULB CANDLE")) {
+                    if (dataClass.getmValue().equals("0")) {
+                        arrayBULB = new byte[]{0, 0, 0, 0, 5, 0, 1, 0};
+                    } else {
+                        arrayBULB = new byte[]{100, 125, 0, 0, 5, 0, 1, 0};
+                    }
+
+                    //arrayBULB = new byte[]{100, 0, 0, 0, 5, 0, 1, 0};
+                    characteristic = mGattCharacteristics.get(2).get(4);
+
+                    if (mBluetoothLeService.writeCharacteristic(characteristic, arrayBULB)) {
+                        finish();
+                    }
                 }
 
-                byte[] arrayOfByte = st.getBytes();
-                byte[] paramString = new byte[arrayOfByte.length];
-                int k = arrayOfByte.length;
-                int j = 0;
-                int i = 0;
-                while (j < k) {
-                    paramString[i] = ((byte) (arrayOfByte[j] ^ 0x4A));
-                    j += 1;
-                    i += 1;
-                }
-                if (mGattCharacteristics != null) {
-                    characteristic =
-                            mGattCharacteristics.get(3).get(4);
-                }
-                if(mBluetoothLeService.writeCharacteristic(characteristic, paramString)){
-                    finish();
-                }
 
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 
             }
+
         }
     };
     private BluetoothGattCharacteristic mNotifyCharacteristic;
@@ -212,6 +231,7 @@ public class DeviceControlActivity extends Activity {
         off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 String st = "set pwm=01,00";
                 byte[] arrayOfByte = st.getBytes();
                 byte[] paramString = new byte[arrayOfByte.length];
@@ -228,12 +248,29 @@ public class DeviceControlActivity extends Activity {
                     characteristic =
                             mGattCharacteristics.get(3).get(4);
                 }
-                mBluetoothLeService.writeCharacteristic(characteristic, paramString);
+                //mBluetoothLeService.writeCharacteristic(characteristic, paramString);
+                int i5 = 5;
+                int n = (byte)i5;
+                int i1 = (byte)0;
+                int i2 = (byte)1;
+                int i3 = (byte)0;
+                byte[] arrayBULB = {50,0,0,0,5,0,1,0};
+                mBluetoothLeService.writeCharacteristic(characteristic, arrayBULB);
+                */
+                characteristic = mGattCharacteristics.get(2).get(4);
+                int i5 = 5;
+                int n = (byte) i5;
+                int i1 = (byte) 0;
+                int i2 = (byte) 1;
+                int i3 = (byte) 0;
+                byte[] arrayBULB = {0, 0, 0, 0, 5, 0, 1, 0};
+                mBluetoothLeService.writeCharacteristic(characteristic, arrayBULB);
             }
         });
         on.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 String st = "set pwm=01,FF";
                 byte[] arrayOfByte = st.getBytes();
                 byte[] paramString = new byte[arrayOfByte.length];
@@ -249,12 +286,21 @@ public class DeviceControlActivity extends Activity {
                     characteristic =
                             mGattCharacteristics.get(3).get(4);
                 }
-                mBluetoothLeService.writeCharacteristic(characteristic, paramString);
+                mBluetoothLeService.writeCharacteristic(characteristic, paramString);*/
+                characteristic = mGattCharacteristics.get(2).get(4);
+                int i5 = 5;
+                int n = (byte) i5;
+                int i1 = (byte) 0;
+                int i2 = (byte) 1;
+                int i3 = (byte) 0;
+                byte[] arrayBULB = {100, 0, 0, 0, 5, 0, 1, 0};
+                mBluetoothLeService.writeCharacteristic(characteristic, arrayBULB);
             }
+
         });
 
-        getActionBar().setTitle(mDeviceName);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setTitle(mDeviceName);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
