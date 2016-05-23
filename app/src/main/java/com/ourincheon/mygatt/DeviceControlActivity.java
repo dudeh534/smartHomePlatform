@@ -56,6 +56,7 @@ public class DeviceControlActivity extends Activity {
     BluetoothGattCharacteristic characteristic;
     byte[] arrayBULB;
     byte[] arrayPOWER;
+    byte[] arrayCURTAIN;
     private TextView mConnectionState;
     private TextView mDataField;
     private Button on, off;
@@ -143,7 +144,8 @@ public class DeviceControlActivity extends Activity {
                     if (dataClass.getmValue().equals("0")) {
                         arrayBULB = new byte[]{0, 0, 0, 0, 5, 0, 1, 0};
                     } else {
-                        arrayBULB = new byte[]{100, 125, 0, 0, 5, 0, 1, 0};
+                        byte a = (byte) 255;
+                        arrayBULB = new byte[]{0, 0, a, 0, 5, 0, 1, 0};
                     }
 
                     //arrayBULB = new byte[]{100, 0, 0, 0, 5, 0, 1, 0};
@@ -161,6 +163,20 @@ public class DeviceControlActivity extends Activity {
                     characteristic = mGattCharacteristics.get(3).get(0);
 
                     if (mBluetoothLeService.writeCharacteristic(characteristic, arrayPOWER)) {
+                        finish();
+
+                    }
+
+                }else if (dataClass.getmFlag().equals("Bluno1")) {
+                    if (dataClass.getmValue().equals("0")) {
+                        arrayCURTAIN = new byte[]{0};
+                    } else {
+                        arrayCURTAIN = new byte[]{1};
+                    }
+                    characteristic = mGattCharacteristics.get(3).get(0);
+
+                    if (mBluetoothLeService.writeCharacteristic(characteristic, arrayCURTAIN)) {
+
                         finish();
                     }
                 }

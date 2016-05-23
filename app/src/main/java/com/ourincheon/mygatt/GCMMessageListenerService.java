@@ -54,6 +54,10 @@ public class GCMMessageListenerService extends GcmListenerService {
             dataClass.setmFlag("Bluno");
             sendNotification(data.getString("POWER"));
             EventBus.getDefault().post(deviceScanActivity);
+        } else if (data.containsKey("CURTAIN")) {
+            dataClass.setmFlag("Bluno1");
+            sendNotification(data.getString("POWER"));
+            EventBus.getDefault().post(deviceScanActivity);
         }
     }
 

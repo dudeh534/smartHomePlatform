@@ -264,6 +264,9 @@ public class DeviceScanActivity extends ListActivity {
         } else if(dataClass.getmFlag().equals("Bluno")){
             intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, "Bluno");
             intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, "20:CD:39:87:C7:E2");
+        } else if(dataClass.getmFlag().equals("Bluno1")) {
+            intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, "Bluno");
+            intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, "20:CD:39:87:79:6D");
         }
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
