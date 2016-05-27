@@ -57,6 +57,8 @@ public class DeviceControlActivity extends Activity {
     byte[] arrayBULB;
     byte[] arrayPOWER;
     byte[] arrayCURTAIN;
+    String arrayPOWER1;
+    String arrayCURTAIN1;
     private TextView mConnectionState;
     private TextView mDataField;
     private Button on, off;
@@ -156,26 +158,26 @@ public class DeviceControlActivity extends Activity {
                     }
                 } else if (dataClass.getmFlag().equals("Bluno")) {
                     if (dataClass.getmValue().equals("0")) {
-                        arrayPOWER = new byte[]{0};
+                        arrayPOWER1 = "0";
                     } else {
-                        arrayPOWER = new byte[]{1};
+                        arrayPOWER1 = "1";
                     }
                     characteristic = mGattCharacteristics.get(3).get(0);
 
-                    if (mBluetoothLeService.writeCharacteristic(characteristic, arrayPOWER)) {
+                    if (mBluetoothLeService.writeCharacteristic1(characteristic, arrayPOWER1)) {
                         finish();
 
                     }
 
                 }else if (dataClass.getmFlag().equals("Bluno1")) {
                     if (dataClass.getmValue().equals("0")) {
-                        arrayCURTAIN = new byte[]{0};
+                        arrayCURTAIN1 = "0";
                     } else {
-                        arrayCURTAIN = new byte[]{1};
+                        arrayCURTAIN1 = "1";
                     }
                     characteristic = mGattCharacteristics.get(3).get(0);
 
-                    if (mBluetoothLeService.writeCharacteristic(characteristic, arrayCURTAIN)) {
+                    if (mBluetoothLeService.writeCharacteristic1(characteristic, arrayCURTAIN1)) {
 
                         finish();
                     }
